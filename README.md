@@ -1,108 +1,45 @@
-# Experiment 1 - MDP Representation
-
+## POLICY EVALUATION
 ## AIM
-To represent a real-world scenario using Markov Decision Process (MDP), where a robot navigates a warehouse to deliver a package while avoiding obstacles.
+To develop a Python program to evaluate the given policy.
 
----
+## PROBLEM STATEMENT
+To find best policy from two policies which are defined by user using policy evaluation function. Where the mdp includes 16 states from 0-15, 0 is the starting state, assigning some 4 random state as holes and 15 is the goal state and then we need to calculate optimal state value function for each state such that we can reach goal using optimal policy using policy evaluation.
 
-## Problem Statement
-This MDP models a robot's navigation through a warehouse. The robot must:
-- Start at a defined location.
-- Pick up a package from a pickup point.
-- Deliver it to a delivery point.
-- Avoid obstacles along the way.
-
----
-
-##  Problem Description
-The robot has to make decisions at each step to reach its delivery address with maximum reward and least collisions. The decisions are probabilistic due to possible slippage or uncertain movement outcomes.
-
----
-
-## State Space
-Each state is defined by:
-- The robot's current position
-- The pickup location of the package
-- The delivery location
-- The positions of obstacles
-
----
-
-### Sample State
-
-1. Robot is at position 1
-
-2. Package to be picked up is at position 3
-
-3. Delivery point is at position 6
-
-4. Obstacles are at positions 2 and 4
+## POLICY EVALUATION FUNCTION
+def policy_evaluation(pi, P, gamma=1.0, theta=1e-10):
+    prev_V = np.zeros(len(P), dtype=np.float64)
+    # Write your code here to evaluate the given policy
+    while True:
+      V=np.zeros(len(P))
+      for s in range(len(P)):
+        for prob,next_state,reward,done in P[s][pi(s)]:
+           V[s]+=prob*(reward+gamma *prev_V[next_state]*(not done))
+      if np.max(np.abs(prev_V-V))<theta:
+        break
+      prev_V=V.copy()
+    return V
+## OUTPUT:
+### First policy:
 
 
----
+![image](https://github.com/user-attachments/assets/a78d9ed1-28b5-4eb9-98e6-e1a4d2bab9fe)
 
-## Action Space
-0 -> Stay
-1 -> Move Left
-2 -> Move Down
-3 -> Move Right
-4 -> Move Up
+![image](https://github.com/user-attachments/assets/276977a3-80dd-410a-8d59-d8047c1958ce)
 
 
----
-
-### Sample Action
-
-0 → 3 → 3 → 1
+### Second policy:
 
 
----
+![image](https://github.com/user-attachments/assets/b543c48e-635f-4560-8a09-557c9ec7de70)
 
-##  Reward Function
-- **+1** → Successfully reaches delivery address  
-- **0** → Any other move (pickup, start, obstacle)
+![image](https://github.com/user-attachments/assets/4045ae9d-3798-4113-a77e-9cadcb66f2da)
 
----
 
-##  Graphical Representation
-![Graphical Representation](https://github.com/user-attachments/assets/2726df17-fa19-4748-b1a9-315f221df897)
+### First and Second compared them:
 
----
 
-##  Python Dictionary Representation
-```python
-p = {
-    1: {
-        0: [(1, 0, 0, False)],
-        1: [(1, 0, 0, False)],
-        2: [(0.7, 3, 0, True), (0.3, 2, 0, False)],
-        3: [(0.3, 2, 0, False), (0.7, 3, 0, True)],
-        4: [(1, 0, 0, False)]
-    },
-    2: {
-        0: [(1, 2, 0, True)],
-        1: [(1, 2, 0, True)],
-        2: [(1, 2, 0, True)],
-        3: [(1, 2, 0, True)],
-        4: [(1, 2, 0, True)]
-    },
-    3: {
-        0: [(1, 3, 0, False)],
-        1: [(1, 3, 0, False)],
-        2: [(1, 3, 0, False)],
-        3: [(0.98, 4, 1, True), (0.7, 1, 0, False)],
-        4: [(0.7, 1, 0, False), (0.98, 4, 1, True)]
-    },
-    4: {
-        0: [(1, 4, 0, True)],
-        1: [(1, 4, 0, True)],
-        2: [(1, 4, 0, True)],
-        3: [(1, 4, 0, True)],
-        4: [(1, 4, 0, True)]
-    }
-}
-```
-## Output
-![image](https://github.com/user-attachments/assets/e59d6b36-8d3a-47ed-84ea-f94e9ad135f5)
-## Result
-Thus, the MDP representation of the robot navigating from a warehouse to the delivery address—while avoiding obstacles—has been successfully modeled, represented in text, graphically, and programmatically using Python.
+![image](https://github.com/user-attachments/assets/ac18a0be-31cd-4538-8b99-ae7267a50103)
+
+
+## RESULT:
+Thus, The Python program to evaluate the given policy is successfully executed.
