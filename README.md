@@ -1,47 +1,63 @@
-## POLICY EVALUATION
-## AIM
-To develop a Python program to evaluate the given policy.
+# MDP REPRESENTATION
 
-## PROBLEM STATEMENT
-To find best policy from two policies which are defined by user using policy evaluation function. Where the mdp includes 16 states from 0-15, 0 is the starting state, assigning some 4 random state as holes and 15 is the goal state and then we need to calculate optimal state value function for each state such that we can reach goal using optimal policy using policy evaluation.
+## AIM:
+To represent a Markov Decision Process(MDP) problem in the following ways.
+1) Text representation
+2) Graphical representation
+3) Python - Dictonary representation
+## PROBLEM STATEMENT:
+To develop an environment in which a person is going for a picnic. The goal is to reach the picnic spot without getting lost.
+## Problem Description
+The agent has to reach the goal state(picnic spot) by taking the correct step towards the goal without drifting away from the path. After reaching the goal the agent will be rewarded if not then no reward will be provided.
+## State Space:
+{0,1,2,3}
+## Sample State:
+0 -> Starting point(S)
+1 -> Relaxing point(R)
+2 -> Picnic point(G)
+3 -> Restricted point(D)
+## Action Space:
+{1,2}
+## Sample Action:
+1 -> Moving up
+2 -> Moving down
+## Reward Function:
+If Agent reached Goal(G) state:
+reward=+1
+else
+reward=0
+### Graphical Representation:
+![image](https://github.com/swethamohanraj/mdp-representation/assets/94228215/ca71410a-bc7d-4cd5-91a2-a21d7ece275e)
 
-## POLICY EVALUATION FUNCTION
+## PYTHON REPRESENTATION:
 ```
-def policy_evaluation(pi, P, gamma=1.0, theta=1e-10):
-    prev_V = np.zeros(len(P), dtype=np.float64)
-    # Write your code here to evaluate the given policy
-    while True:
-      V=np.zeros(len(P))
-      for s in range(len(P)):
-        for prob,next_state,reward,done in P[s][pi(s)]:
-           V[s]+=prob*(reward+gamma *prev_V[next_state]*(not done))
-      if np.max(np.abs(prev_V-V))<theta:
-        break
-      prev_V=V.copy()
-    return V
- ```
+Picnic = { 
+    #starting point state(S) ->0
+    #Action: up-> 1, down-> 2
+  0:{
+     1:[(0.82 , 1 , 0,False),(0.18 , 0 , 0 , False)],
+     2:[(0.88 , 0 , 0,False),(0.12 , 1 , 0 , False)] 
+  },
+    #Relaxing point state(R) ->1
+  1:{
+     1:[(0.91 , 2 , 0,False),(0.09 , 0 , 0 , False)],
+     2:[(0.75 , 0 , 0,False),(0.25 , 2 , 0 , False)]
+  },
+    #Picnic point state(G) ->2
+  2:{
+      1:[(0.92 , 3 , 1,True),(0.08 , 1 , 0 , False)],
+      2:[(0.91 , 1 , 0,False),(0.09 , 3 , 1 , True)]
+  },
+    #Restricted point(R) ->3
+  3:{
+      1:[(0.82, 3 , 0, True),(0.18 , 2 , 0 , False)],
+      2:[(0.73, 2 , 0, False),(0.27 , 3 , 0 , True)]
+  }
+}
+Picnic
+```
 ## OUTPUT:
-### First policy:
-
-
-![image](https://github.com/user-attachments/assets/a78d9ed1-28b5-4eb9-98e6-e1a4d2bab9fe)
-
-![image](https://github.com/user-attachments/assets/276977a3-80dd-410a-8d59-d8047c1958ce)
-
-
-### Second policy:
-
-
-![image](https://github.com/user-attachments/assets/b543c48e-635f-4560-8a09-557c9ec7de70)
-
-![image](https://github.com/user-attachments/assets/4045ae9d-3798-4113-a77e-9cadcb66f2da)
-
-
-### First and Second compared them:
-
-
-![image](https://github.com/user-attachments/assets/ac18a0be-31cd-4538-8b99-ae7267a50103)
-
+![image](https://github.com/swethamohanraj/mdp-representation/assets/94228215/3629fcbd-bcaa-4bec-834a-359674733e9a)
 
 ## RESULT:
-Thus, The Python program to evaluate the given policy is successfully executed.
+Hence we have created an environment suitable for the above mentioned problem.
